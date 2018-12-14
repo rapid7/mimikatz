@@ -14,6 +14,12 @@ wchar_t * outputBuffer;
 size_t outputBufferElements, outputBufferElementsPosition;
 #endif
 
+#ifdef __MINGW32__
+typedef wchar_t WCHAR, *PWCHAR;
+typedef const PWCHAR PCWCHAR;
+typedef CONST WCHAR *LPCWCHAR;
+#endif
+
 void kprintf(PCWCHAR format, ...);
 void kprintf_inputline(PCWCHAR format, ...);
 

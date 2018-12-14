@@ -40,7 +40,10 @@ Revision History:
 extern "C" {
 #endif
 
-
+#ifdef __MINGW32__
+#define __field_bcount(expr)
+#endif
+	
 //
 // Ensure PCtxtHandle is defined
 //

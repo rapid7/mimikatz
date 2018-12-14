@@ -14,6 +14,27 @@
 #include "../modules/kull_m_crypto_system.h"
 #include <fltUser.h>
 
+#ifdef __MINGW32__
+typedef struct _FILTER_AGGREGATE_BASIC_INFORMATION {
+  ULONG NextEntryOffset;
+  ULONG Flags;
+  union {
+    struct {
+      ULONG  FrameID;
+      ULONG  NumberOfInstances;
+      USHORT FilterNameLength;
+      USHORT FilterNameBufferOffset;
+      USHORT FilterAltitudeLength;
+      USHORT FilterAltitudeBufferOffset;
+    } MiniFilter;
+    struct {
+      USHORT FilterNameLength;
+      USHORT FilterNameBufferOffset;
+    } LegacyFilter;
+  } Type;
+} FILTER_AGGREGATE_BASIC_INFORMATION, *PFILTER_AGGREGATE_BASIC_INFORMATION;
+#endif
+
 const KUHL_M kuhl_m_misc;
 
 NTSTATUS kuhl_m_misc_cmd(int argc, wchar_t * argv[]);

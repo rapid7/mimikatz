@@ -21,6 +21,15 @@
 //#define KERBEROS_TOOLS
 //#define SERVICE_INCONTROL
 //#define LSASS_DECRYPT
+
+#ifdef __MINGW32__
+#define __in
+#define __inout
+#define __out
+#define __in_opt
+#define TEXT(expr)
+#endif
+
 #define NET_MODULE
 #define SQLITE3_OMIT
 #ifdef _M_X64

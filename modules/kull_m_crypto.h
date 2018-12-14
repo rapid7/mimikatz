@@ -15,6 +15,11 @@
 #define AES_128_KEY_SIZE	(128/8)
 #define AES_BLOCK_SIZE		16
 
+#ifdef __MINGW32__
+typedef wchar_t WCHAR, *PWCHAR;
+typedef const PWCHAR PCWCHAR;
+#endif
+
 typedef struct _GENERICKEY_BLOB {
 	BLOBHEADER Header;
 	DWORD dwKeyLen;

@@ -10,6 +10,12 @@
 extern "C" {
 #endif
 
+#ifdef __MINGW32__
+#define __field_xcount(expr)
+#define __range(a,b)
+#define __success(expr)
+#endif
+
 /* ------ Basic integer types ------ */
 
 typedef unsigned char   ASN1uint8_t;

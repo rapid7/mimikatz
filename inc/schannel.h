@@ -22,6 +22,10 @@
 #pragma once
 #endif
 
+#ifdef __MINGW32__
+#define __field_ecount(expr)
+#endif
+
 #include <wincrypt.h>
 
 

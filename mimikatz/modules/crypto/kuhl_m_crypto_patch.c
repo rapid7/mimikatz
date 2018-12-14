@@ -5,6 +5,11 @@
 */
 #include "kuhl_m_crypto_patch.h"
 
+#ifdef __MINGW32__
+#define __try
+#define __except if
+#endif
+
 PCP_EXPORTKEY K_CPExportKey = NULL;
 
 BYTE PATC_WIN5_CPExportKey_EXPORT[]	= {0xeb};

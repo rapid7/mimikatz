@@ -9,6 +9,10 @@
 #include "../kuhl_m_crypto.h"
 //#include "../../../modules/kull_m_crypto.h"
 
+#ifdef __MINGW32__
+#define SCARD_PROVIDER_KSP 3
+#endif
+
 NTSTATUS kuhl_m_crypto_l_sc(int argc, wchar_t * argv[]);
 
 void kuhl_m_crypto_l_mdr(LPCWSTR szMdr, SCARDCONTEXT ctxScard, SCARDHANDLE hScard, LPCWSTR szModel, LPCBYTE pbAtr, DWORD cbAtr);

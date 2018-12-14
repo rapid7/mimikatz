@@ -127,7 +127,7 @@ void kuhl_m_crypto_l_sc_prop(SCARDCONTEXT hContext, LPCWSTR reader)
 	SCARDHANDLE hCard;
 	DWORD dwRet, dwVersion, i;
 	KIWI_TLV_FEATURE features[255];
-	PCWCHAR szFeature;
+	PWCHAR szFeature;
 	ANSI_STRING aVendor, aModel;
 
 	status = SCardConnect(hContext, reader, SCARD_SHARE_DIRECT, SCARD_PROTOCOL_UNDEFINED, &hCard, &dwRet);
