@@ -36,6 +36,11 @@ Environment:
 #define INSTANCE_NAME_MAX_CHARS   255
 #define INSTANCE_NAME_MAX_BYTES   (INSTANCE_NAME_MAX_CHARS * sizeof( WCHAR ))
 
+#ifdef __MINGW32__
+#define __struct_bcount(expr)
+#define __success(expr)
+#endif
+
 typedef HANDLE  HFILTER;
 typedef HANDLE  HFILTER_INSTANCE;
 typedef HANDLE  HFILTER_VOLUME;

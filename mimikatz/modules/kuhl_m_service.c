@@ -5,6 +5,10 @@
 */
 #include "kuhl_m_service.h"
 
+#ifndef SERVICE_CONTROL_PRESHUTDOWN
+#define SERVICE_CONTROL_PRESHUTDOWN 0x0000000F
+#endif
+
 const KUHL_M_C kuhl_m_c_service[] = {
 	{kuhl_m_service_start,		L"start",		L"Start service"},
 	{kuhl_m_service_remove,		L"remove",		L"Remove service"},

@@ -13,6 +13,12 @@
 #include <sspi.h>
 #include <sddl.h>
 #include <wincred.h>
+
+#ifdef __MINGW32__
+#define _WIN32_WINNT 0x0602
+#endif
+
+
 #include <ntsecapi.h>
 #include <ntsecpkg.h>
 #include <stdio.h>
@@ -21,6 +27,16 @@
 //#define KERBEROS_TOOLS
 //#define SERVICE_INCONTROL
 //#define LSASS_DECRYPT
+
+#ifdef __MINGW32__
+#define __in
+#define __inout
+#define __out
+#define __in_opt
+#define __FUNCTION__
+#define TEXT(expr) expr
+#endif
+
 #define NET_MODULE
 #define SQLITE3_OMIT
 #ifdef _M_X64

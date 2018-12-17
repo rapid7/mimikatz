@@ -17,6 +17,10 @@ typedef struct _KIWI_DATETIME_FORMATS {
 	BYTE idxSecond;
 } KIWI_DATETIME_FORMATS, *PKIWI_DATETIME_FORMATS;
 
+#ifdef __MINGW32__
+typedef CONST WCHAR *LPCWCHAR;
+#endif
+
 typedef CONST char *PCSZ;
 typedef STRING ANSI_STRING;
 typedef PSTRING PANSI_STRING;

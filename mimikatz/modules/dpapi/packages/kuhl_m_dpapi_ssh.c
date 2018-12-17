@@ -5,6 +5,11 @@
 */
 #include "kuhl_m_dpapi_ssh.h"
 
+#ifdef __MINGW32__
+#define __try
+#define __except if(0)
+#endif
+
 NTSTATUS kuhl_m_dpapi_ssh(int argc, wchar_t * argv[])
 {
 	PKULL_M_REGISTRY_HANDLE hRegistry;
@@ -263,10 +268,12 @@ BOOL kuhl_m_dpapi_ssh_getRSAfromRAW(LPCBYTE data, DWORD szData)
 				BCryptCloseAlgorithmProvider(hAlg, 0);
 			}
 		}
+#ifndef __MINGW32__
 		__except(GetExceptionCode() == ERROR_DLL_NOT_FOUND)
 		{
 			PRINT_ERROR(L"No CNG when dealing with OpenSSH for Windows 10?\n");
 		}
+#endif
 		LocalFree(pBasicRsaBlob);
 	}
 	return status;

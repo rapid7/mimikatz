@@ -5,6 +5,13 @@
 */
 #include "kuhl_m_lsadump.h"
 
+#ifdef __MINGW32__
+#define __try
+#define __except(expr) if(0)
+#define KERB_ETYPE_AES256_CTS_HMAC_SHA1_96    18
+#define KERB_ETYPE_AES128_CTS_HMAC_SHA1_96    17
+#endif
+
 const KUHL_M_C kuhl_m_c_lsadump[] = {
 	{kuhl_m_lsadump_sam,		L"sam",			L"Get the SysKey to decrypt SAM entries (from registry or hives)"},
 	{kuhl_m_lsadump_secrets,	L"secrets",		L"Get the SysKey to decrypt SECRETS entries (from registry or hives)"},

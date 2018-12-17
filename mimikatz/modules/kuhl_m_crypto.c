@@ -5,6 +5,16 @@
 */
 #include "kuhl_m_crypto.h"
 
+#ifdef __MINGW32__
+#define __try
+#define __except(expr) if(0)
+#endif
+
+
+#ifndef NTE_NO_MORE_ITEMS
+#define NTE_NO_MORE_ITEMS 0x8009002A
+#endif
+
 HMODULE kuhl_m_crypto_hRsaEnh = NULL;
 
 const KUHL_M_C kuhl_m_c_crypto[] = {
@@ -1146,10 +1156,12 @@ BOOL closeHprov(BOOL bFreeKey, DWORD dwSpec, HCRYPTPROV_OR_NCRYPT_KEY_HANDLE hPr
 			{
 				status = (NCryptFreeObject(hProv) == ERROR_SUCCESS);
 			}
+#ifndef __MINGW32__
 			__except(GetExceptionCode() == ERROR_DLL_NOT_FOUND)
 			{
 				PRINT_ERROR(L"CNG key without functions?\n");
 			}
+#endif
 		}
 	}
 	return status;

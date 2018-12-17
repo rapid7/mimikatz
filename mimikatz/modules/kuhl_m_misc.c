@@ -5,6 +5,12 @@
 */
 #include "kuhl_m_misc.h"
 
+
+#ifdef __MINGW32__
+#define __format_string
+#endif
+
+
 const KUHL_M_C kuhl_m_c_misc[] = {
 	{kuhl_m_misc_cmd,		L"cmd",			L"Command Prompt          (without DisableCMD)"},
 	{kuhl_m_misc_regedit,	L"regedit",		L"Registry Editor         (without DisableRegistryTools)"},

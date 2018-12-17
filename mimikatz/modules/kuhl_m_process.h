@@ -8,6 +8,10 @@
 #include "../modules/kull_m_process.h"
 #include "kuhl_m_token.h"
 
+#ifdef __MINGW32__
+#define __out_xcount_opt(expr)
+#endif
+
 const KUHL_M kuhl_m_process;
 
 typedef BOOL	(WINAPI * PINITIALIZEPROCTHREADATTRIBUTELIST) (__out_xcount_opt(*lpSize) LPPROC_THREAD_ATTRIBUTE_LIST lpAttributeList, __in DWORD dwAttributeCount, __reserved DWORD dwFlags, __inout PSIZE_T lpSize);
