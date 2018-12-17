@@ -11,6 +11,17 @@ BOOL isFinish;
 MIMI_HANDLE hMimi;
 PKIWI_DH clientKey;
 
+#ifdef __MINGW32__
+#define RpcTryExcept {
+#define RpcExcept(x) } if (0) {
+#define RpcEndExcept }
+#define RpcTryFinally __try {
+#define RpcFinally } __finally {
+#define RpcEndFinally }
+#define RpcExceptionCode() GetExceptionCode()
+#define RpcAbnormalTermination() AbnormalTermination()
+#endif
+
 const KUHL_M_C kuhl_m_c_rpc[] = {
 	{kuhl_m_rpc_server,	L"server",	NULL},
 	{kuhl_m_rpc_connect,L"connect",	NULL},

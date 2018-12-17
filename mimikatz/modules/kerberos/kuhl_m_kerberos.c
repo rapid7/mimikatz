@@ -5,10 +5,92 @@
 */
 #include "kuhl_m_kerberos.h"
 
+#ifdef __MINGW32__
+#undef __WIN32_WINNT
+#define _WIN32_WINNT 0x0602
+#endif
+#include <ntsecapi.h>
+
 STRING	kerberosPackageName = {8, 9, MICROSOFT_KERBEROS_NAME_A};
 DWORD	g_AuthenticationPackageId_Kerberos = 0;
 BOOL	g_isAuthPackageKerberos = FALSE;
 HANDLE	g_hLSA = NULL;
+
+#ifdef __MINGW32__
+
+#define KERB_ETYPE_AES128_CTS_HMAC_SHA1_96    17
+#define KERB_CHECKSUM_HMAC_SHA1_96_AES128  15
+#define KERB_ETYPE_AES256_CTS_HMAC_SHA1_96    18
+#define KERB_CHECKSUM_HMAC_SHA1_96_AES256  16
+#define KERB_ETYPE_AES128_CTS_HMAC_SHA1_96_PLAIN    -148
+#define KERB_ETYPE_AES256_CTS_HMAC_SHA1_96_PLAIN    -149
+
+#define KERB_CHECKSUM_SHA1_NEW      14           // defined in RFC3961
+
+typedef struct KERB_CRYPTO_KEY32 {
+    LONG KeyType;
+    ULONG Length;
+    ULONG Offset;
+} KERB_CRYPTO_KEY32, *PKERB_CRYPTO_KEY32;
+
+typedef enum _KERB_PROTOCOL_MESSAGE_TYPE2 {
+    KerbDebugRequestMessage2 = 0,
+    KerbQueryTicketCacheMessage2,
+    KerbChangeMachinePasswordMessage2,
+    KerbVerifyPacMessage2,
+    KerbRetrieveTicketMessage2,
+    KerbUpdateAddressesMessage2,
+    KerbPurgeTicketCacheMessage2,
+    KerbChangePasswordMessage2,
+    KerbRetrieveEncodedTicketMessage2,
+    KerbDecryptDataMgessage2,
+    KerbAddBindingCacheEntryMessage2,
+    KerbSetPasswordMessage2,
+    KerbSetPasswordExMessage2,
+#if (_WIN32_WINNT == 0x0500)
+    KerbAddExtraCredentialsMessage2 = 17
+#endif
+#if (_WIN32_WINNT >= 0x0501)
+    KerbVerifyCredentialsMessage2,
+    KerbQueryTicketCacheExMessage2,
+    KerbPurgeTicketCacheExMessage2,
+#endif
+#if (_WIN32_WINNT >= 0x0502)
+    KerbRefreshSmartcardCredentialsMessage2,
+    KerbAddExtraCredentialsMessage2,
+    KerbQuerySupplementalCredentialsMessage2,
+#endif
+#if (_WIN32_WINNT >= 0x0600)
+    KerbTransferCredentialsMessage2,
+    KerbQueryTicketCacheEx2Message2,
+    KerbSubmitTicketMessage2,
+    KerbAddExtraCredentialsExMessage2,
+#endif
+#if (_WIN32_WINNT >= 0x0602)
+    KerbQueryKdcProxyCacheMessage2,
+    KerbPurgeKdcProxyCacheMessage2,
+    KerbQueryTicketCacheEx3Message2, 
+    KerbCleanupMachinePkinitCredsMessage2,
+    KerbAddBindingCacheEntryExMessage2,
+    KerbQueryBindingCacheMessage2,
+    KerbPurgeBindingCacheMessage2,
+    KerbPinKdcMessage2,
+    KerbUnpinAllKdcsMessage2,
+    KerbQueryDomainExtendedPoliciesMessage2,
+    KerbQueryS4U2ProxyCacheMessage2,
+#endif
+} KERB_PROTOCOL_MESSAGE_TYPE2, *PKERB_PROTOCOL_MESSAGE_TYPE2;
+
+typedef struct _KERB_SUBMIT_TKT_REQUEST {
+    KERB_PROTOCOL_MESSAGE_TYPE2 MessageType;
+    LUID LogonId;
+    ULONG Flags;
+    KERB_CRYPTO_KEY32 Key; // key to decrypt KERB_CRED
+    ULONG KerbCredSize;
+    ULONG KerbCredOffset;
+} KERB_SUBMIT_TKT_REQUEST, *PKERB_SUBMIT_TKT_REQUEST;
+
+#endif
 
 const KUHL_M_C kuhl_m_c_kerberos[] = {
 	{kuhl_m_kerberos_ptt,		L"ptt",			L"Pass-the-ticket [NT 6]"},
@@ -107,7 +189,7 @@ NTSTATUS kuhl_m_kerberos_ptt_data(PVOID data, DWORD dataSize)
 	submitSize = sizeof(KERB_SUBMIT_TKT_REQUEST) + dataSize;
 	if(pKerbSubmit = (PKERB_SUBMIT_TKT_REQUEST) LocalAlloc(LPTR, submitSize))
 	{
-		pKerbSubmit->MessageType = KerbSubmitTicketMessage;
+		pKerbSubmit->MessageType = KerbSubmitTicketMessage2;
 		pKerbSubmit->KerbCredSize = dataSize;
 		pKerbSubmit->KerbCredOffset = sizeof(KERB_SUBMIT_TKT_REQUEST);
 		RtlCopyMemory((PBYTE) pKerbSubmit + pKerbSubmit->KerbCredOffset, data, dataSize);
@@ -117,7 +199,7 @@ NTSTATUS kuhl_m_kerberos_ptt_data(PVOID data, DWORD dataSize)
 		{
 			status = packageStatus;
 			if(!NT_SUCCESS(status))
-				PRINT_ERROR(L"LsaCallAuthenticationPackage KerbSubmitTicketMessage / Package : %08x\n", status);
+				PRINT_ERROR(L"LsaCallAuthenticationPackage KerbSubmitTicketMessage2 / Package : %08x\n", status);
 		}
 		else PRINT_ERROR(L"LsaCallAuthenticationPackage KerbSubmitTicketMessage : %08x\n", status);
 

@@ -15,7 +15,7 @@
 #include <fltUser.h>
 
 #ifdef __MINGW32__
-typedef struct _FILTER_AGGREGATE_BASIC_INFORMATION {
+/*typedef struct _FILTER_AGGREGATE_BASIC_INFORMATION {
   ULONG NextEntryOffset;
   ULONG Flags;
   union {
@@ -32,7 +32,7 @@ typedef struct _FILTER_AGGREGATE_BASIC_INFORMATION {
       USHORT FilterNameBufferOffset;
     } LegacyFilter;
   } Type;
-} FILTER_AGGREGATE_BASIC_INFORMATION, *PFILTER_AGGREGATE_BASIC_INFORMATION;
+} FILTER_AGGREGATE_BASIC_INFORMATION, *PFILTER_AGGREGATE_BASIC_INFORMATION;*/
 #endif
 
 const KUHL_M kuhl_m_misc;

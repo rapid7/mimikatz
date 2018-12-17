@@ -8,6 +8,10 @@
 #define WIN32_NO_STATUS
 #define SECURITY_WIN32
 #include <windows.h>
+
+#ifdef __MINGW32__
+#define __WIN32_WINNT 0x0602
+#endif
 #include <ntsecapi.h>
 #include <sspi.h>
 #include <sddl.h>

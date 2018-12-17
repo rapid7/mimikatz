@@ -16,8 +16,8 @@
 #define AES_BLOCK_SIZE		16
 
 #ifdef __MINGW32__
-typedef wchar_t WCHAR, *PWCHAR;
-typedef const PWCHAR PCWCHAR;
+//typedef wchar_t WCHAR, *PWCHAR;
+//typedef const PWCHAR PCWCHAR;
 #endif
 
 typedef struct _GENERICKEY_BLOB {

@@ -23,7 +23,11 @@ NTSTATUS kuhl_m_dpapi_masterkeys(int argc, wchar_t * argv[])
 	{
 		if(masterkeys = kull_m_dpapi_masterkeys_create(buffer))
 		{
+		#ifdef __MINGW32__
+			kull_m_dpapi_masterkeys_descr(0,masterkeys);
+		#else
 			kull_m_dpapi_masterkeys_descr(masterkeys);
+		#endif
 			kull_m_dpapi_masterkeys_delete(masterkeys);
 		}
 		LocalFree(buffer);

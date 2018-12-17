@@ -16,8 +16,8 @@ size_t outputBufferElements, outputBufferElementsPosition;
 
 #ifdef __MINGW32__
 typedef wchar_t WCHAR, *PWCHAR;
-typedef const PWCHAR PCWCHAR;
-typedef CONST WCHAR *LPCWCHAR;
+//typedef const PWCHAR PCWCHAR;
+//typedef CONST WCHAR *LPCWCHAR;
 #endif
 
 void kprintf(PCWCHAR format, ...);

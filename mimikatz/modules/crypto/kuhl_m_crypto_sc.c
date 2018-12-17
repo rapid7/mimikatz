@@ -222,7 +222,12 @@ NTSTATUS kuhl_m_crypto_l_sc(int argc, wchar_t * argv[])
 	status = SCardEstablishContext(SCARD_SCOPE_SYSTEM, NULL, NULL, &hContext);
 	if(status == SCARD_S_SUCCESS)
 	{
+#ifndef __MINGW32__
 		status = SCardListReaders(hContext, SCARD_ALL_READERS, (LPWSTR) &mszReaders, &dwLen);
+#else
+		status = SCardListReaders(hContext, L"SCard$AllReaders\000", (LPWSTR) &mszReaders, &dwLen);
+#endif
+		
 		if(status == SCARD_S_SUCCESS)
 		{
 			kprintf(L"SmartCard readers:");

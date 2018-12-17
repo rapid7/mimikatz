@@ -5,6 +5,11 @@
 */
 #include "kuhl_m_standard.h"
 
+#ifdef __MINGW32__
+#define _MSC_FULL_VER 0
+#define _MSC_BUILD 0
+#endif
+
 const KUHL_M_C kuhl_m_c_standard[] = {
 	//{kuhl_m_standard_test,		L"test",	L"Test routine (you don\'t want to see this !)"},
 	{kuhl_m_standard_exit,		L"exit",		L"Quit mimikatz"},
