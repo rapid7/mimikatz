@@ -4,6 +4,16 @@
 	Licence : https://creativecommons.org/licenses/by/4.0/
 */
 #include "kull_m_rpc_bkrp.h"
+#ifdef __MINGW32__
+#define RpcTryExcept {
+#define RpcExcept(x) } if (0) {
+#define RpcEndExcept }
+#define RpcTryFinally __try {
+#define RpcFinally } __finally {
+#define RpcEndFinally }
+#define RpcExceptionCode() GetExceptionCode()
+#define RpcAbnormalTermination() AbnormalTermination()
+#endif
 
 BOOL kull_m_rpc_bkrp_createBinding(LPCWSTR NetworkAddr, RPC_BINDING_HANDLE *hBinding)
 {

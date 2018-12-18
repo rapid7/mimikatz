@@ -5,6 +5,10 @@
 */
 #include "kull_m_service.h"
 
+#ifndef SERVICE_CONTROL_PRESHUTDOWN
+#define SERVICE_CONTROL_PRESHUTDOWN 0x0000000F
+#endif
+
 BOOL kull_m_service_getUniqueForName(PCWSTR serviceName, SERVICE_STATUS_PROCESS * pServiceStatusProcess)
 {
 	BOOL status = FALSE;

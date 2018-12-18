@@ -26,6 +26,11 @@ KULL_M_PATCH_GENERIC PTRN_WIN8_LsaInitializeProtectedMemory_KeyRef[] = { // Init
 
 #endif
 
+#ifdef __MINGW32__
+#define __try
+#define __except(expr) if(0)
+#endif
+
 NTSTATUS kuhl_m_sekurlsa_nt6_KeyInit = STATUS_NOT_FOUND;
 PLSA_PROTECT_MEMORY kuhl_m_sekurlsa_nt6_pLsaProtectMemory = kuhl_m_sekurlsa_nt6_LsaProtectMemory, kuhl_m_sekurlsa_nt6_pLsaUnprotectMemory = kuhl_m_sekurlsa_nt6_LsaUnprotectMemory;
 KIWI_BCRYPT_GEN_KEY k3Des, kAes;

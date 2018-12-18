@@ -4,6 +4,17 @@
 */
 #include "kull_m_rpc_drsr.h"
 
+#ifdef __MINGW32__
+#define RpcTryExcept {
+#define RpcExcept(x) } if (0) {
+#define RpcEndExcept }
+#define RpcTryFinally __try {
+#define RpcFinally } __finally {
+#define RpcEndFinally }
+#define RpcExceptionCode() GetExceptionCode()
+#define RpcAbnormalTermination() AbnormalTermination()
+#endif
+
 SecPkgContext_SessionKey kull_m_rpc_drsr_g_sKey = {0, NULL};
 void RPC_ENTRY kull_m_rpc_drsr_RpcSecurityCallback(void *Context)
 {

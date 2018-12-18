@@ -10,6 +10,28 @@
 */
 #include "kuhl_m_lsadump_dc.h"
 
+#ifdef __MINGW32__
+#define RpcTryExcept {
+#define RpcExcept(x) } if (0) {
+#define RpcEndExcept }
+#define RpcTryFinally __try {
+#define RpcFinally } __finally {
+#define RpcEndFinally }
+#define RpcExceptionCode() GetExceptionCode()
+#define RpcAbnormalTermination() AbnormalTermination()
+
+#define KERB_ETYPE_AES128_CTS_HMAC_SHA1_96    17
+#define KERB_CHECKSUM_HMAC_SHA1_96_AES128  15
+#define KERB_ETYPE_AES256_CTS_HMAC_SHA1_96    18
+#define KERB_CHECKSUM_HMAC_SHA1_96_AES256  16
+#define KERB_ETYPE_AES128_CTS_HMAC_SHA1_96_PLAIN    -148
+#define KERB_ETYPE_AES256_CTS_HMAC_SHA1_96_PLAIN    -149
+
+#define KERB_CHECKSUM_SHA1_NEW      14           // defined in RFC3961
+#define KERB_CHECKSUM_HMAC_SHA1_96_AES128_Ki -150
+#define KERB_CHECKSUM_HMAC_SHA1_96_AES256_Ki -151
+#endif
+
 LPCSTR kuhl_m_lsadump_dcsync_oids[] = {
 	szOID_ANSI_name,
 	szOID_ANSI_sAMAccountName, szOID_ANSI_userPrincipalName, szOID_ANSI_sAMAccountType,

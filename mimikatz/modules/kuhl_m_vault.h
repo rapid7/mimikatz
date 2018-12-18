@@ -12,14 +12,6 @@
 
 const KUHL_M kuhl_m_vault;
 
-NTSTATUS kuhl_m_vault_init();
-NTSTATUS kuhl_m_vault_clean();
-
-NTSTATUS kuhl_m_vault_list(int argc, wchar_t * argv[]);
-void kuhl_m_vault_list_descVault(HANDLE hVault);
-void kuhl_m_vault_list_descItemData(struct _VAULT_ITEM_DATA * pData);
-NTSTATUS kuhl_m_vault_cred(int argc, wchar_t * argv[]);
-
 typedef struct _VAULT_GUID_STRING {
 	const GUID guid;
 	const wchar_t * text;
@@ -186,3 +178,15 @@ typedef NTSTATUS	(WINAPI * PVAULTENUMERATEITEMS) (HANDLE vault, DWORD unk0, PDWO
 typedef NTSTATUS	(WINAPI * PVAULTENUMERATEITEMTYPES) (HANDLE vault, DWORD unk0, PDWORD cbItemTypes, PVAULT_ITEM_TYPE * itemTypes);
 typedef NTSTATUS	(WINAPI * PVAULTGETITEM7) (HANDLE vault, LPGUID SchemaId, PVAULT_ITEM_DATA Resource, PVAULT_ITEM_DATA Identity, HWND hWnd, DWORD Flags, PVAULT_ITEM_7 * pItem);
 typedef NTSTATUS	(WINAPI * PVAULTGETITEM8) (HANDLE vault, LPGUID SchemaId, PVAULT_ITEM_DATA Resource, PVAULT_ITEM_DATA Identity, PVAULT_ITEM_DATA PackageSid, HWND hWnd, DWORD Flags, PVAULT_ITEM_8 * pItem);
+
+
+NTSTATUS kuhl_m_vault_init();
+NTSTATUS kuhl_m_vault_clean();
+
+NTSTATUS kuhl_m_vault_list(int argc, wchar_t * argv[]);
+void kuhl_m_vault_list_descVault(HANDLE hVault);
+void kuhl_m_vault_list_descItemData(PVAULT_ITEM_DATA pData);
+NTSTATUS kuhl_m_vault_cred(int argc, wchar_t * argv[]);
+
+
+

@@ -48,38 +48,6 @@
 
 const KUHL_M kuhl_m_sekurlsa;
 
-NTSTATUS kuhl_m_sekurlsa_init();
-NTSTATUS kuhl_m_sekurlsa_clean();
-
-VOID kuhl_m_sekurlsa_reset();
-
-NTSTATUS kuhl_m_sekurlsa_acquireLSA();
-
-BOOL CALLBACK kuhl_m_sekurlsa_findlibs(PKULL_M_PROCESS_VERY_BASIC_MODULE_INFORMATION pModuleInformation, PVOID pvArg);
-
-BOOL kuhl_m_sekurlsa_validateAdjustUnicodeBuffer(PUNICODE_STRING pString, PVOID pBaseBuffer, PMEMORY_BASIC_INFORMATION pMemoryBasicInformation);
-NTSTATUS kuhl_m_sekurlsa_enum(PKUHL_M_SEKURLSA_ENUM callback, LPVOID pOptionalData);
-void kuhl_m_sekurlsa_printinfos_logonData(IN PKIWI_BASIC_SECURITY_LOGON_SESSION_DATA pData);
-NTSTATUS kuhl_m_sekurlsa_getLogonData(const PKUHL_M_SEKURLSA_PACKAGE * lsassPackages, ULONG nbPackages);
-BOOL CALLBACK kuhl_m_sekurlsa_enum_callback_logondata(IN PKIWI_BASIC_SECURITY_LOGON_SESSION_DATA pData, IN OPTIONAL LPVOID pOptionalData);
-VOID kuhl_m_sekurlsa_pth_luid(PSEKURLSA_PTH_DATA data);
-VOID kuhl_m_sekurlsa_genericCredsOutput(PKIWI_GENERIC_PRIMARY_CREDENTIAL mesCreds, PKIWI_BASIC_SECURITY_LOGON_SESSION_DATA pData, ULONG flags);
-VOID kuhl_m_sekurlsa_genericKeyOutput(struct _KIWI_CREDENTIAL_KEY * key, LPCWSTR sid);
-VOID kuhl_m_sekurlsa_genericLsaIsoOutput(struct _LSAISO_DATA_BLOB * blob);
-VOID kuhl_m_sekurlsa_genericEncLsaIsoOutput(struct _ENC_LSAISO_DATA_BLOB * blob, DWORD size);
-void kuhl_m_sekurlsa_bkey(PKUHL_M_SEKURLSA_CONTEXT cLsass, PKUHL_M_SEKURLSA_LIB pLib, PKULL_M_PATCH_GENERIC generics, SIZE_T cbGenerics, BOOL isExport);
-void kuhl_m_sekurlsa_krbtgt_keys(PVOID addr, PCWSTR prefix);
-void kuhl_m_sekurlsa_trust_domainkeys(struct _KDC_DOMAIN_KEYS_INFO * keysInfo, PCWSTR prefix, BOOL incoming, PCUNICODE_STRING domain);
-void kuhl_m_sekurlsa_trust_domaininfo(struct _KDC_DOMAIN_INFO * info);
-
-NTSTATUS kuhl_m_sekurlsa_all(int argc, wchar_t * argv[]);
-NTSTATUS kuhl_m_sekurlsa_krbtgt(int argc, wchar_t * argv[]);
-NTSTATUS kuhl_m_sekurlsa_dpapi_system(int argc, wchar_t * argv[]);
-NTSTATUS kuhl_m_sekurlsa_trust(int argc, wchar_t * argv[]);
-NTSTATUS kuhl_m_sekurlsa_bkeys(int argc, wchar_t * argv[]);
-NTSTATUS kuhl_m_sekurlsa_pth(int argc, wchar_t * argv[]);
-NTSTATUS kuhl_m_sekurlsa_process(int argc, wchar_t * argv[]);
-NTSTATUS kuhl_m_sekurlsa_minidump(int argc, wchar_t * argv[]);
 
 typedef struct _KUHL_M_SEKURLSA_ENUM_HELPER {
 	SIZE_T tailleStruct;
@@ -215,3 +183,37 @@ typedef struct _ENC_LSAISO_DATA_BLOB {
 	BYTE unkData2[16];
 	BYTE data[ANYSIZE_ARRAY];
 } ENC_LSAISO_DATA_BLOB, *PENC_LSAISO_DATA_BLOB;
+
+
+NTSTATUS kuhl_m_sekurlsa_init();
+NTSTATUS kuhl_m_sekurlsa_clean();
+
+VOID kuhl_m_sekurlsa_reset();
+
+NTSTATUS kuhl_m_sekurlsa_acquireLSA();
+
+BOOL CALLBACK kuhl_m_sekurlsa_findlibs(PKULL_M_PROCESS_VERY_BASIC_MODULE_INFORMATION pModuleInformation, PVOID pvArg);
+
+BOOL kuhl_m_sekurlsa_validateAdjustUnicodeBuffer(PUNICODE_STRING pString, PVOID pBaseBuffer, PMEMORY_BASIC_INFORMATION pMemoryBasicInformation);
+NTSTATUS kuhl_m_sekurlsa_enum(PKUHL_M_SEKURLSA_ENUM callback, LPVOID pOptionalData);
+void kuhl_m_sekurlsa_printinfos_logonData(IN PKIWI_BASIC_SECURITY_LOGON_SESSION_DATA pData);
+NTSTATUS kuhl_m_sekurlsa_getLogonData(const PKUHL_M_SEKURLSA_PACKAGE * lsassPackages, ULONG nbPackages);
+BOOL CALLBACK kuhl_m_sekurlsa_enum_callback_logondata(IN PKIWI_BASIC_SECURITY_LOGON_SESSION_DATA pData, IN OPTIONAL LPVOID pOptionalData);
+VOID kuhl_m_sekurlsa_pth_luid(PSEKURLSA_PTH_DATA data);
+VOID kuhl_m_sekurlsa_genericCredsOutput(PKIWI_GENERIC_PRIMARY_CREDENTIAL mesCreds, PKIWI_BASIC_SECURITY_LOGON_SESSION_DATA pData, ULONG flags);
+VOID kuhl_m_sekurlsa_genericKeyOutput(struct _KIWI_CREDENTIAL_KEY * key, LPCWSTR sid);
+VOID kuhl_m_sekurlsa_genericLsaIsoOutput(struct _LSAISO_DATA_BLOB * blob);
+VOID kuhl_m_sekurlsa_genericEncLsaIsoOutput(PENC_LSAISO_DATA_BLOB, DWORD size);
+void kuhl_m_sekurlsa_bkey(PKUHL_M_SEKURLSA_CONTEXT cLsass, PKUHL_M_SEKURLSA_LIB pLib, PKULL_M_PATCH_GENERIC generics, SIZE_T cbGenerics, BOOL isExport);
+void kuhl_m_sekurlsa_krbtgt_keys(PVOID addr, PCWSTR prefix);
+void kuhl_m_sekurlsa_trust_domainkeys(struct _KDC_DOMAIN_KEYS_INFO * keysInfo, PCWSTR prefix, BOOL incoming, PCUNICODE_STRING domain);
+void kuhl_m_sekurlsa_trust_domaininfo(struct _KDC_DOMAIN_INFO * info);
+
+NTSTATUS kuhl_m_sekurlsa_all(int argc, wchar_t * argv[]);
+NTSTATUS kuhl_m_sekurlsa_krbtgt(int argc, wchar_t * argv[]);
+NTSTATUS kuhl_m_sekurlsa_dpapi_system(int argc, wchar_t * argv[]);
+NTSTATUS kuhl_m_sekurlsa_trust(int argc, wchar_t * argv[]);
+NTSTATUS kuhl_m_sekurlsa_bkeys(int argc, wchar_t * argv[]);
+NTSTATUS kuhl_m_sekurlsa_pth(int argc, wchar_t * argv[]);
+NTSTATUS kuhl_m_sekurlsa_process(int argc, wchar_t * argv[]);
+NTSTATUS kuhl_m_sekurlsa_minidump(int argc, wchar_t * argv[]);

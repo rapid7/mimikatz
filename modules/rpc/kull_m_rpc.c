@@ -5,6 +5,18 @@
 */
 #include "kull_m_rpc.h"
 
+
+#ifdef __MINGW32__
+#define RpcTryExcept {
+#define RpcExcept(x) } if (0) {
+#define RpcEndExcept }
+#define RpcTryFinally __try {
+#define RpcFinally } __finally {
+#define RpcEndFinally }
+#define RpcExceptionCode() GetExceptionCode()
+#define RpcAbnormalTermination() AbnormalTermination()
+#endif
+
 LPCWSTR KULL_M_RPC_AUTHNLEV[7] = {L"DEFAULT", L"NONCE", L"CONNECT", L"CALL", L"PKT", L"PKT_INTEGRITY", L"PKT_PRIVACY",};
 LPCWSTR KULL_M_RPC_AUTHNSVC(DWORD AuthnSvc)
 {
