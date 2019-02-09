@@ -77,7 +77,11 @@ NTSTATUS kuhl_m_rpc_do(wchar_t * input)
 			}
 			RpcExcept(RPC_EXCEPTION)
 			{
+#ifndef __MINGW32__
 				rpcExc = RpcExceptionCode();
+#else
+                rpcExc = 0;
+#endif
 				if(rpcExc == RPC_S_SEC_PKG_ERROR)
 					PRINT_ERROR(L"A security package specific error occurred (Kerberos mutual auth not available?)\n");
 				else if(rpcExc == RPC_S_UNKNOWN_AUTHN_SERVICE)
@@ -106,7 +110,11 @@ NTSTATUS kuhl_m_rpc_close(int argc, wchar_t * argv[])
 		}
 		RpcExcept(RPC_EXCEPTION)
 		{
+#ifndef __MINGW32__
 			rpcExc = RpcExceptionCode();
+#else
+            rpcExc = 0;
+#endif
 			if(rpcExc == RPC_S_SEC_PKG_ERROR)
 				PRINT_ERROR(L"A security package specific error occurred (Kerberos mutual auth not available?)\n");
 			else if(rpcExc == RPC_S_UNKNOWN_AUTHN_SERVICE)
@@ -141,7 +149,7 @@ NTSTATUS kuhl_m_rpc_enum(int argc, wchar_t * argv[])
 	BOOL isNullSession, sameId, avoidMsBugWasHere = FALSE;
 	PCWSTR szRemote, szProtSeq;
 	DWORD AuthnSvc;
-	
+
 	kull_m_rpc_getArgs(argc, argv, &szRemote, &szProtSeq, NULL, NULL, &AuthnSvc, RPC_C_AUTHN_GSS_NEGOTIATE, &isNullSession, NULL, TRUE);
 	if(kull_m_rpc_createBinding(NULL, szProtSeq, szRemote, NULL, NULL, FALSE, AuthnSvc, isNullSession ? KULL_M_RPC_AUTH_IDENTITY_HANDLE_NULLSESSION : NULL, RPC_C_IMP_LEVEL_DEFAULT, &Binding, NULL))
 	{
@@ -349,7 +357,11 @@ NTSTATUS kuhl_m_rpc_connect(int argc, wchar_t * argv[])
 					}
 					RpcExcept(RPC_EXCEPTION)
 					{
+#ifndef __MINGW32__
 						rpcExc = RpcExceptionCode();
+#else
+                        rpcExc = 0;
+#endif
 						if(rpcExc == RPC_S_SEC_PKG_ERROR)
 							PRINT_ERROR(L"A security package specific error occurred (Kerberos mutual auth not available?)\n");
 						else if(rpcExc == RPC_S_UNKNOWN_AUTHN_SERVICE)

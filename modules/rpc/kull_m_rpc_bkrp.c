@@ -51,7 +51,9 @@ BOOL kull_m_rpc_bkrp_generic(LPCWSTR NetworkAddr, const GUID * pGuid, PVOID Data
 			else PRINT_ERROR(L"BackuprKey: 0x%08x (%u)\n", netStatus, netStatus);
 		}
 		RpcExcept(RPC_EXCEPTION)
+#ifndef __MINGW32__
 			PRINT_ERROR(L"RPC Exception: 0x%08x (%u)\n", RpcExceptionCode(), RpcExceptionCode());
+#endif
 		RpcEndExcept
 			kull_m_rpc_deleteBinding(&hBinding);
 	}

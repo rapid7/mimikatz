@@ -176,21 +176,21 @@ void kull_m_rpc_getArgs(int argc, wchar_t * argv[], LPCWSTR *szRemote, LPCWSTR *
 			kprintf(L"ProtSeq  : %s\n", *szProtSeq);
 
 	}
-	
+
 	if(szEndpoint)
 	{
 		kull_m_string_args_byName(argc, argv, L"endpoint", szEndpoint, NULL);
 		if(printIt)
 			kprintf(L"Endpoint : %s\n", *szEndpoint);
 	}
-	
+
 	if(szService)
 	{
 		kull_m_string_args_byName(argc, argv, L"service", szService, NULL);
 		if(printIt)
 			kprintf(L"Service  : %s\n", *szService);
 	}
-	
+
 	if(AuthnSvc)
 	{
 		*AuthnSvc = defAuthnSvc;
@@ -276,7 +276,9 @@ BOOL kull_m_rpc_Generic_Decode(PVOID data, DWORD size, PVOID pObject, PGENERIC_R
 					status = TRUE;
 				}
 				RpcExcept(EXCEPTION_EXECUTE_HANDLER)
+#ifndef __MINGW32__
 					PRINT_ERROR(L"RPC Exception: 0x%08x (%u)\n", RpcExceptionCode(), RpcExceptionCode());
+#endif
 				RpcEndExcept
 			}
 			else PRINT_ERROR(L"MesIncrementalHandleReset: %08x\n", rpcStatus);
@@ -300,7 +302,9 @@ void kull_m_rpc_Generic_Free(PVOID pObject, PGENERIC_RPC_FREE fFree)
 		RpcTryExcept
 			fFree(pHandle, pObject);
 		RpcExcept(EXCEPTION_EXECUTE_HANDLER)
+#ifndef __MINGW32__
 			PRINT_ERROR(L"RPC Exception: 0x%08x (%u)\n", RpcExceptionCode(), RpcExceptionCode());
+#endif
 		RpcEndExcept
 		MesHandleFree(pHandle);
 	}
@@ -331,7 +335,9 @@ BOOL kull_m_rpc_Generic_Encode(PVOID pObject, PVOID *data, DWORD *size, PGENERIC
 					status = TRUE;
 				}
 				RpcExcept(EXCEPTION_EXECUTE_HANDLER)
+#ifndef __MINGW32__
 					PRINT_ERROR(L"RPC Exception: 0x%08x (%u)\n", RpcExceptionCode(), RpcExceptionCode());
+#endif
 				RpcEndExcept
 			}
 			else PRINT_ERROR(L"MesIncrementalHandleReset: %08x\n", rpcStatus);
